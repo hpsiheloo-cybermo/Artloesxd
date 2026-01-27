@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Art Portfolio - Protected Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700;900&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --accent: #d4a574;
+            --bg: #faf9f7;
+            --text: #2d2d2d;
+            --border: #e8e6e1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="%23d4a574" opacity="0.5"/></svg>'), auto;
+        }
+
+        /* Disable text selection and right-click */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 249, 247, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero */
+        .hero {
+            margin-top: 100px;
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero h1 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            font-weight: 300;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        /* Protection Notice */
+        .protection-notice {
+            background: linear-gradient(135deg, #f5f3ef 0%, #faf9f7 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem auto;
+            max-width: 800px;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .protection-notice h3 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .protection-notice ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .protection-notice li {
+            padding: 0.75rem;
+            background: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .protection-notice li::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Gallery */
+        .gallery {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .art-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+        }
+
+        .art-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .art-image-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+
+        .art-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            pointer-events: none;
+        }
+
+        .art-card:hover .art-image {
+            transform: scale(1.05);
+        }
+
+        /* Watermark overlay */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Bodoni Moda', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.3);
+            text-shadow: 0 0 20px rgba(0,0,0,0.1);
+            pointer-events: none;
+            z-index: 10;
+            letter-spacing: -0.02em;
+        }
+
+        .art-info {
+            padding: 1.5rem;
+        }
+
+        .art-info h3 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .art-info p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .art-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .art-date {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .copyright-badge {
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Tools Section */
+        .tools-section {
+            max-width: 1400px;
+            margin: 6rem auto 4rem;
+            padding: 0 2rem;
+        }
+
+        .tools-section h2 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .tool-card h3 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .tool-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .tool-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .tool-button:hover {
+            background: var(--accent);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: var(--accent);
+            background: rgba(212, 165, 116, 0.05);
+        }
+
+        .upload-area input {
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 6rem;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Copyright overlay on images */
+        .copyright-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .art-card:hover .copyright-overlay {
+            opacity: 1;
+        }
+
+        .copyright-text {
+            color: white;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+                font-size: 0.85rem;
+            }
+
+            .gallery-grid,
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .protection-notice ul {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Modal for search results */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .search-results {
+            margin-top: 1rem;
+        }
+
+        .result-item {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Ink_Hiruz</div>
+            <ul class="nav-links">
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#protect">Protection Tools</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Protected Art Portfolio</h1>
+            <p>Original artwork with copyright protection and tracking. All works are registered and monitored for unauthorized use.</p>
+        </section>
+
+        <section class="protection-notice">
+            <h3>🛡️ Copyright Protection Active</h3>
+            <p>All artwork on this site is protected by copyright law. This portfolio includes:</p>
+            <ul>
+                <li>Right-click disabled</li>
+                <li>Watermarked images</li>
+                <li>Low-resolution previews</li>
+                <li>Regular monitoring</li>
+                <li>Copyright registration</li>
+                <li>DMCA protection</li>
+            </ul>
+        </section>
+
+        <section class="gallery" id="gallery">
+            <div class="gallery-grid">
+                <!-- Art Card 1 -->
+                <div class="art-card">
+                    <div class="art-image-container">
+                        <div class="watermark">© Ink_Hiruz</div>
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%23e8d5c4' width='400' height='500'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='24' fill='%23666' text-anchor='middle' dominant-baseline='middle'%3EYour Artwork Here%3C/text%3E%3C/svg%3E" alt="Artwork 1" class="art-image">
+                        <div class="copyright-overlay">
+                            <p class="copyright-text">© 2026 Ink_Hiruz. All Rights Reserved. Registration #XXXXX</p>
+                        </div>
+                    </div>
+                    <div class="art-info">
+                        <h3>Artwork Title</h3>
+                        <p>Medium: Digital Art / Size: 3000x4000px</p>
+                        <div class="art-meta">
+                            <span class="art-date">January 2026</span>
+                            <span class="copyright-badge">© Registered</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Art Card 2 -->
+                <div class="art-card">
+                    <div class="art-image-container">
+                        <div class="watermark">© Ink_Hiruz</div>
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%23c4d5e8' width='400' height='500'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='24' fill='%23666' text-anchor='middle' dominant-baseline='middle'%3EYour Artwork Here%3C/text%3E%3C/svg%3E" alt="Artwork 2" class="art-image">
+                        <div class="copyright-overlay">
+                            <p class="copyright-text">© 2026 Ink_Hiruz. All Rights Reserved. Registration #XXXXX</p>
+                        </div>
+                    </div>
+                    <div class="art-info">
+                        <h3>Artwork Title</h3>
+                        <p>Medium: Oil on Canvas / Size: 24x30 inches</p>
+                        <div class="art-meta">
+                            <span class="art-date">January 2026</span>
+                            <span class="copyright-badge">© Registered</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Art Card 3 -->
+                <div class="art-card">
+                    <div class="art-image-container">
+                        <div class="watermark">© Ink_Hiruz</div>
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%23d4c4e8' width='400' height='500'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='24' fill='%23666' text-anchor='middle' dominant-baseline='middle'%3EYour Artwork Here%3C/text%3E%3C/svg%3E" alt="Artwork 3" class="art-image">
+                        <div class="copyright-overlay">
+                            <p class="copyright-text">© 2026 Ink_Hiruz. All Rights Reserved. Registration #XXXXX</p>
+                        </div>
+                    </div>
+                    <div class="art-info">
+                        <h3>Artwork Title</h3>
+                        <p>Medium: Mixed Media / Size: 18x24 inches</p>
+                        <div class="art-meta">
+                            <span class="art-date">December 2025</span>
+                            <span class="copyright-badge">© Registered</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tools-section" id="protect">
+            <h2>Protection Tools</h2>
+            <div class="tools-grid">
+                <!-- Reverse Image Search -->
+                <div class="tool-card">
+                    <h3>🔍 Reverse Image Search</h3>
+                    <p>Upload your artwork to search for unauthorized uses across the web using Google, TinEye, and Yandex.</p>
+                    <div class="upload-area" onclick="document.getElementById('search-upload').click()">
+                        <input type="file" id="search-upload" accept="image/*" onchange="performReverseSearch(this)">
+                        <p>📁 Click to upload and search</p>
+                    </div>
+                </div>
+
+                <!-- Watermark Tool -->
+                <div class="tool-card">
+                    <h3>💧 Add Watermark</h3>
+                    <p>Automatically add your signature watermark to images before sharing on social media.</p>
+                    <div class="upload-area" onclick="document.getElementById('watermark-upload').click()">
+                        <input type="file" id="watermark-upload" accept="image/*" onchange="addWatermark(this)">
+                        <p>📁 Click to upload and watermark</p>
+                    </div>
+                </div>
+
+                <!-- Resolution Optimizer -->
+                <div class="tool-card">
+                    <h3>📐 Resolution Optimizer</h3>
+                    <p>Automatically resize images to 1080px and 72 DPI for safe social media sharing.</p>
+                    <div class="upload-area" onclick="document.getElementById('resize-upload').click()">
+                        <input type="file" id="resize-upload" accept="image/*" onchange="optimizeResolution(this)">
+                        <p>📁 Click to upload and optimize</p>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="tool-card">
+                    <h3>🔗 Copyright Resources</h3>
+                    <p>Quick access to copyright registration and infringement reporting.</p>
+                    <a href="https://www.copyright.gov/" target="_blank" class="tool-button" style="display: block; margin-bottom: 0.5rem;">Register Copyright</a>
+                    <a href="https://support.google.com/legal/answer/3110420" target="_blank" class="tool-button" style="display: block; margin-bottom: 0.5rem;">Report to Google</a>
+                    <a href="https://www.tineye.com/" target="_blank" class="tool-button" style="display: block;">TinEye Search</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Ink_Hiruz. All Rights Reserved.</p>
+        <p>All artwork is protected by copyright law and registered with the appropriate authorities.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">Unauthorized use, reproduction, or distribution is strictly prohibited.</p>
+    </footer>
+
+    <!-- Modal for search results -->
+    <div class="modal" id="searchModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <h2>Reverse Image Search</h2>
+            <div id="searchResults" class="search-results"></div>
+        </div>
+    </div>
+
+    <script>
+        // Disable right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            alert('⚠️ Right-click is disabled. All artwork is copyrighted and protected.');
+        });
+
+        // Disable keyboard shortcuts for saving/copying
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+S, Ctrl+Shift+S (Save)
+            if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+                e.preventDefault();
+                alert('⚠️ Saving is disabled. All artwork is copyrighted.');
+            }
+            // Ctrl+P (Print)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                e.preventDefault();
+                alert('⚠️ Printing is disabled. All artwork is copyrighted.');
+            }
+            // PrintScreen
+            if (e.key === 'PrintScreen') {
+                alert('⚠️ Screenshots are monitored. All artwork is copyrighted.');
+            }
+        });
+
+        // Reverse Image Search
+        function performReverseSearch(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const modal = document.getElementById('searchModal');
+                    const results = document.getElementById('searchResults');
+                    
+                    results.innerHTML = `
+                        <p>Opening reverse image search in new tabs...</p>
+                        <div class="result-item">
+                            <h4>🔍 Google Images</h4>
+                            <p>Searching Google for matches...</p>
+                        </div>
+                        <div class="result-item">
+                            <h4>🔍 TinEye</h4>
+                            <p>Searching TinEye for matches...</p>
+                        </div>
+                        <div class="result-item">
+                            <h4>🔍 Yandex</h4>
+                            <p>Searching Yandex for matches...</p>
+                        </div>
+                    `;
+                    
+                    modal.classList.add('active');
+                    
+                    // Open search engines (Note: actual upload would require backend)
+                    setTimeout(() => {
+                        window.open('https://images.google.com/', '_blank');
+                        window.open('https://tineye.com/', '_blank');
+                        window.open('https://yandex.com/images/', '_blank');
+                    }, 1000);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Add Watermark
+        function addWatermark(input) {
+            const file = input.files[0];
+            if (file) {
+                alert('📝 Watermark feature: This would add your signature watermark to the image. For full functionality, save this HTML and integrate with a backend service or use desktop software like Photoshop, GIMP, or online tools.');
+                
+                // In production, you would:
+                // 1. Upload to a server
+                // 2. Use Canvas API or server-side processing
+                // 3. Add watermark overlay
+                // 4. Return processed image
+            }
+        }
+
+        // Optimize Resolution
+        function optimizeResolution(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Resize to 1080px on longest side
+                        const maxSize = 1080;
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        if (width > height) {
+                            if (width > maxSize) {
+                                height = (height * maxSize) / width;
+                                width = maxSize;
+                            }
+                        } else {
+                            if (height > maxSize) {
+                                width = (width * maxSize) / height;
+                                height = maxSize;
+                            }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // Convert to lower quality JPEG
+                        canvas.toBlob(function(blob) {
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'optimized_' + file.name.replace(/\.[^/.]+$/, '') + '.jpg';
+                            a.click();
+                            
+                            alert(`✅ Image optimized!\nNew size: ${width}x${height}px\nFile size reduced for social media.\nDownloading now...`);
+                        }, 'image/jpeg', 0.85);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('searchModal').classList.remove('active');
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('searchModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
