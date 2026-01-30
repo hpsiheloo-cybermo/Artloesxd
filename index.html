@@ -935,35 +935,3 @@
     viewCount++;
     localStorage.setItem('portfolioViews', viewCount);
     
-    // Update display
-    document.getElementById('viewCount').textContent = viewCount;
-    document.getElementById('instagramClicks').textContent = instagramClicks;
-    
-    // Track Instagram link clicks
-    function trackInstagramClick() {
-        instagramClicks++;
-        localStorage.setItem('instagramClicks', instagramClicks);
-        document.getElementById('instagramClicks').textContent = instagramClicks;
-        
-        // Open Instagram in new tab
-        window.open('https://www.instagram.com/ink_hiruz/', '_blank');
-        
-        // Prevent default link behavior
-        return false;
-    }
-    
-    // Add click tracking to Instagram link
-    document.addEventListener('DOMContentLoaded', function() {
-        // Find Instagram link in footer
-        const instagramLink = document.querySelector('a[href*="instagram.com"]');
-        if (instagramLink) {
-            instagramLink.onclick = trackInstagramClick;
-        }
-    });
-</script>
-
-<!-- Update your Instagram link in the footer to include tracking -->
-<!-- Find this line in your footer: -->
-<a href="https://www.instagram.com/ink_hiruz/" target="_blank" onclick="return trackInstagramClick();">
-    <i class="fab fa-instagram"></i>
-</a>
